@@ -19,8 +19,11 @@ object OrganizingImplicit extends App {
     Person("Peter", 42),
     Person("John", 20)
   )
-  implicit val personOrdering: Ordering[Person] = Ordering.fromLessThan(_.name < _.name)
-  println(persons.sorted)
+//  object Person {
+//    implicit val personOrdering: Ordering[Person] = Ordering.fromLessThan(_.name < _.name)
+//  }
+//  implicit val ageOrdering: Ordering[Person] = Ordering.fromLessThan(_.age < _.age)
+//  println(persons.sorted)
   /*
   implicit scope
     - normal scope = local scope
@@ -28,7 +31,15 @@ object OrganizingImplicit extends App {
     - companions of all types involved in the method signature
       - List
       - Ordering
-      - all the types involved
+      - all the types involved -> A or any super type
    */
   // def sorted[B :> A](implicit ord: Ordering[B]): List[B]
+  object AlphabeticOrdering {
+    implicit val personOrdering: Ordering[Person] = Ordering.fromLessThan(_.name < _.name)
+  }
+  object AgeOrdering {
+    implicit val ageOrdering: Ordering[Person] = Ordering.fromLessThan(_.age < _.age)
+  }
+  import AlphabeticOrdering._
+  println(persons.sorted)
 }
